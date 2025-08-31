@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply bg-black text-white font-f2;
+}
+
+
+/* Responsive helpers */
+@media (max-width: 640px) {
+	.hero-left h1 { font-size: 2rem }
+	.hero-left p { font-size: 0.95rem }
+	img { image-rendering: optimizeQuality }
+	.touch-large { padding: 14px 18px }
+	.object-dim { filter: brightness(0.92) }
+}
+
+/* no scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none }
+
+/* respect safe area insets on iOS */
+body { padding-bottom: env(safe-area-inset-bottom) }
+
+/* touch target and focus helpers */
+.touch-large { padding: 12px 14px }
+
+:focus {
+	outline: none;
+}
+
+/* keyboard focus visible */
+.focus-visible:focus {
+	outline: 3px solid rgba(107,73,232,0.22);
+	outline-offset: 4px;
+}
+
+/* smoother transitions on mobile */
+button, a { transition: transform 160ms ease, opacity 160ms ease }
+
+/* When running on touch devices we add .no-hover to <html> and
+	 hide hover-only overlays/buttons and disable blur/scale effects to avoid
+	 accidental UI shifts on touch devices */
+html.no-hover .group-hover\:opacity-100,
+html.no-hover .group:hover .group-hover\:opacity-100 {
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
+
+html.no-hover .group-hover\:scale-110,
+html.no-hover .group:hover .group-hover\:scale-110 {
+	transform: none !important;
+}
+
+html.no-hover .hover\:-translate-y-2,
+html.no-hover .hover\:shadow-2xl {
+	transform: none !important;
+	box-shadow: none !important;
+}
+
+/* Remove backdrop blur on touch devices */
+html.no-hover .backdrop-blur-sm,
+html.no-hover .backdrop-blur-md,
+html.no-hover .backdrop-blur {
+	-webkit-backdrop-filter: none !important;
+	backdrop-filter: none !important;
+}
+
+/* Prevent image scaling/transitions on touch */
+html.no-hover img {
+	transition: none !important;
+	transform: none !important;
+}
+
+/* Ensure any hover-only absolute overlays remain hidden */
+/* Hide only hover overlays/backdrops, keep images visible */
+html.no-hover .absolute.inset-0 > .flex,
+html.no-hover .absolute.inset-0 > .bg-black\/30,
+html.no-hover .absolute.inset-0 > .backdrop-blur-sm,
+html.no-hover .absolute.inset-0 > .backdrop-blur-md {
+	visibility: hidden !important;
+	pointer-events: none !important;
+}
+
+/* Ensure images inside absolute containers remain visible on touch */
+html.no-hover .absolute.inset-0 > img {
+	visibility: visible !important;
+	transform: none !important;
+}
+
+/* Course card hover blur/overlay */
+.course-item { position: relative; overflow: hidden; }
+.course-item .course-overlay {
+	backdrop-filter: blur(0px);
+	-webkit-backdrop-filter: blur(0px);
+	background: rgba(0,0,0,0.28);
+	transition: backdrop-filter 260ms ease, background 220ms ease, opacity 220ms ease;
+}
+
+/* increase blur and darken on hover (desktop only) */
+html:not(.no-hover) .course-item:hover .course-overlay {
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	background: rgba(0,0,0,0.5);
+}
+
+/* make sure overlay is visible when JS/GSAP toggles classes */
+.course-item .course-overlay[style] { transition: none; }
+
+/* card lift on hover (desktop only) */
+.card-lift {
+	transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
+}
+html:not(.no-hover) .card-lift:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+}
+
+/* stronger blur for courses on hover (desktop only) */
+html:not(.no-hover) .courses-section .card-lift:hover .backdrop-blur-sm {
+	-webkit-backdrop-filter: blur(6px) !important;
+	backdrop-filter: blur(6px) !important;
+	background: rgba(0,0,0,0.5) !important;
+	opacity: 1 !important;
+}
